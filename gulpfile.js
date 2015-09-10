@@ -6,12 +6,13 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var connect = require('gulp-connect');
+var karma = require('karma').server;
+var protractor = require('gulp-protractor').protractor;
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
-
-gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -50,3 +51,29 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+gulp.task('connect', function() {
+  connect.server({
+    root: 'www/',
+    port: '8000'
+  });
+});
+
+gulp.task('unit', function(done) {
+  karma.start({
+    configFile: __dirname + '/tests/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+gulp.task('e2e', function(done) {
+  var args = ['--baseUrl', 'http://127.0.0.1:8000'];
+  gulp.src(['./tests/e2e/*.js'])
+    .pipe(protractor({
+      configFile: 'tests/protractor.conf.js',
+      args: args
+    }))
+    .on('error', function(e) { throw e; });
+})
+
+gulp.task('default', ['connect']);
