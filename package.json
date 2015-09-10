@@ -1,7 +1,12 @@
 {
-  "name": "podcast-player",
-  "version": "1.0.0",
-  "description": "podcast-player: An Ionic project",
+  "name": "iofio-podcast-app",
+  "version": "0.0.0",
+  "description": "iofio podcast player app built with ionic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iofio/podcast-app.git"
+  },
+  "license": "MIT",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^1.3.3",
